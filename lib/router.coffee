@@ -13,8 +13,7 @@
 #    });
 #
 ###
-
-class BrowRouter
+class Router
 	routes: {}
 	###
 	# Constructs a BrowRouter that will listen to browser navigations
@@ -22,9 +21,13 @@ class BrowRouter
 	# start method has been invoked.
 	###
 	constructor: ->
-		# Prepare for route registrations
+
 	start: (runCurrent)->
-		# register navigation listeners
+		# register navigation listener
+		@browser = new Browser(true, (url) => @dispatch(url))
+		if runCurrent
+			@dispatch(document.location.hash)
+
 	###
 	# Register a route
 	###
@@ -35,10 +38,20 @@ class BrowRouter
 	
 	# stop listening to a route
 	stop: (route,callback) ->
-		#
+		listener = @routes[route]
+		index = -1
+		for cb,i in listener.callbacks
+			index = i if cb == callback
+
+		if index > -1
+			listener.callbacks.splice(index,1)
+
+		if listener.callbacks.length == 0
+			delete @routes[route]
+		
 	###
 	# Trigger on an url
 	###
 	dispatch: (url) ->
-		for r,v of routes
+		for r,v of @routes
 			v.trigger(url)
