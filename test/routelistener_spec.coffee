@@ -14,19 +14,19 @@ describe "RouteListener", ->
 		it "should return a regex formed from the route", ->
 			rl.route = "/users"
 			rl.compile()
-			expect(rl.regex.source).toBe("/users")
+			expect(rl.regex.source).toBe("^/users$")
 
 		it "should make a regex that matches a variable", ->
 			rl.route = "/users/:id"
 			rl.compile()
-			expect(rl.regex.source).toBe("/users/" + rl.variableRegex)
+			expect(rl.regex.source).toBe("^/users/" + rl.variableRegex + "$")
 
 		it "should make a regex that matches two variables", ->
 			rl.route = "/users/:id/comments/:comment_id"
 			rl.compile()
-			expect(rl.regex.source).toBe(
+			expect(rl.regex.source).toBe("^" +
 				"/users/" + rl.variableRegex +
-				"/comments/" + rl.variableRegex
+				"/comments/" + rl.variableRegex + "$"
 				)
 		
 	describe "#matches", ->
@@ -41,8 +41,7 @@ describe "RouteListener", ->
 		it "should return the value of an url with a variable", ->
 			rl = new RouteListener("/users/:id")
 			matches = rl.matches("/users/1")
-			expect(matches.length).toBe(1)
-			expect(matches).toContain("1")
+			expect(matches[0]).toBe("1")
 
 		it "should support routes with more variables", ->
 			rl = new RouteListener("/users/:id/comments/:comment_id")
@@ -52,7 +51,6 @@ describe "RouteListener", ->
 		it "should return the value of an url with more variables", ->
 			rl = new RouteListener("/users/:id/comments/:comment_id")
 			matches = rl.matches("/users/1/comments/2")
-			expect(matches.length).toBe(2)
 			expect(matches[0]).toBe '1'
 			expect(matches[1]).toBe '2'
 
@@ -64,3 +62,10 @@ describe "RouteListener", ->
 			expect(matches).toBeTruthy()
 			expect(matches[0]).toBe '1'
 			expect(matches[1]).toBe '2'
+
+		it "supports an options hash passed in after a '?'", ->
+			rl = new RouteListener("/users")
+			matches = rl.matches("/users?hilight=kamina&a=b")
+			expect(matches).toBeTruthy()
+			expect(matches[0].hilight).toBe('kamina')
+			expect(matches[0].a).toBe('b')

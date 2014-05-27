@@ -4,7 +4,9 @@ class RouteListener
 		@compile()
 
 	matches: (url) ->
-		results = @regex.exec(url)
+		parts = url.split("?",2)
+		results = @regex.exec(parts[0])
+		results.push(@parseOptions(parts[1])) if parts[1]?
 		if results?
 			results.slice(1) 
 		else
@@ -75,5 +77,39 @@ class RouteListener
 					# emit character
 					result_array.push(c)
 			i+=1 # next character
-		result = result_array.join("")
+		result = "^" + result_array.join("") + "$"
 		@regex = new RegExp(result)
+
+
+	# Parses the options hash
+	# Transcribed from http://medialize.github.io/URI.js
+	parseOptions: (string) ->
+		return {} if !string
+		# throw out the funky business - "?"[name"="value"&"]+
+		string = string.replace(/&+/g, '&').replace(/^\?*&*|&+$/g, '')
+		return {} if !string
+
+		items = {}
+		splits = string.split('&')
+		length = splits.length
+
+		for pair in splits
+			v = pair.split('=')
+			name = @decodeQuery(v.shift())
+			# no "=" is null according to http://dvcs.w3.org/hg/url/raw-file/tip/Overview.html#collect-url-parameters
+			value = if v.length then @decodeQuery(v.join("=")) else null
+
+			if items[name]
+				if typeof items[name] is 'string'
+					items[name] = [items[name]]
+				items[name].push(value);
+			else
+				items[name] = value
+			
+		items
+
+	decodeQuery: (string) ->
+		try
+			decodeURIComponent(string.replace(/\+/g, '%20'));
+		catch e
+			string
