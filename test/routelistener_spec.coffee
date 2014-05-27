@@ -69,3 +69,12 @@ describe "RouteListener", ->
 			expect(matches).toBeTruthy()
 			expect(matches[0].hilight).toBe('kamina')
 			expect(matches[0].a).toBe('b')
+
+	describe "#trigger", ->
+		it "should call the callbacks if the url matches", ->
+			rl = new RouteListener("/users/:id/comments/:comment_id")
+			promise = ""
+			rl.callbacks.push (userId, commentId) -> promise += userId + commentId
+			rl.callbacks.push (userId, commentId) -> promise += userId + commentId
+			rl.trigger("/users/1/comments/2")
+			expect(promise).toBe("1212")

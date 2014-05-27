@@ -12,6 +12,10 @@ class RouteListener
 		else
 			false
 
+	trigger: (url) ->
+		if matches = @matches(url)
+			cb(matches...) for cb in @callbacks
+
 	variableRegex: "([a-zA-Z0-9-]+)"
 	variableNameRegex: /^([a-zA-Z0-9-_]+)/
 	globbingVariableRegex: "([a-zA-Z0-9-]+)"
