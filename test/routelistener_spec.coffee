@@ -78,3 +78,11 @@ describe "RouteListener", ->
 			rl.callbacks.push (userId, commentId) -> promise += userId + commentId
 			rl.trigger("/users/1/comments/2")
 			expect(promise).toBe("1212")
+
+		it "should not call the callbacks if the url does not match", ->
+			rl = new RouteListener("/losers/:id/comments/:comment_id")
+			promise = ""
+			rl.callbacks.push (userId, commentId) -> promise += userId + commentId
+			rl.callbacks.push (userId, commentId) -> promise += userId + commentId
+			rl.trigger("/users/1/comments/2")
+			expect(promise).toBe("")
