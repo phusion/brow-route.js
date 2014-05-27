@@ -4,7 +4,7 @@ var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 
-var libraryName = "browroute.js";
+var libraryName = "brow-route.js";
 
 var sources = {
 	coffee: "lib/**/*.coffee",
