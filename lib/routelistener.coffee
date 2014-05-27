@@ -5,9 +5,13 @@ class RouteListener
 
 	matches: (url) ->
 		results = @regex.exec(url)
-		results[0]?
+		if results?
+			results.slice(1) 
+		else
+			false
 
 	variableRegex: "([a-zA-Z0-9-]+)"
+	variableNameRegex: /^([a-zA-Z0-9-_]+)/
 	globbingVariableRegex: "([a-zA-Z0-9-]+)"
 	optionalScopeBeginRegex: "(?:"
 	optionalScopeEndRegex: ")?"
@@ -16,7 +20,7 @@ class RouteListener
 		'\\' + next
 
 	readVariableName: (string,i) ->
-		result = /^([a-zA-Z0-9-]+)/.exec(string)
+		result = @variableNameRegex.exec(string)
 		if !result?[0]
 			throw "Expected variable name consisting of letters and numbers at position " + i +
 				  " in route: " + @route
