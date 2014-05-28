@@ -1,0 +1,10 @@
+{
+	"name": "BrowRoute",
+	"version": "0.0.1",
+	"main" : "dist/brow-route.js",
+	"ignore" : [
+		"*",
+		"!dist/brow-route.js"
+	],
+	"dependencies" : {}
+}
