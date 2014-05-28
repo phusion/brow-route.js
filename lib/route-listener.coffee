@@ -7,6 +7,9 @@ if !@BrowRoute? then @BrowRoute = {}
 		@compile()
 
 	matches: (url) ->
+		if url[0] == '#'
+			url = url.substr(1)
+
 		parts = url.split("?",2)
 		results = @regex.exec(parts[0])
 		

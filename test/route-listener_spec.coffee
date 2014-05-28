@@ -71,6 +71,12 @@ describe "RouteListener", ->
 			expect(matches[0].hilight).toBe('kamina')
 			expect(matches[0].a).toBe('b')
 
+		it "should trim # from the url before matching", ->
+			rl = new RouteListener("/users/:id")
+			matches = rl.matches("#/users/1")
+			expect(matches[0]).toBe("1")
+
+
 	describe "#trigger", ->
 		it "should call the callbacks if the url matches", ->
 			rl = new RouteListener("/users/:id/comments/:comment_id")

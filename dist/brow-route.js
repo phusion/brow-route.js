@@ -160,6 +160,9 @@
 
     RouteListener.prototype.matches = function(url) {
       var name, params, parts, results, _i, _len, _ref;
+      if (url[0] === '#') {
+        url = url.substr(1);
+      }
       parts = url.split("?", 2);
       results = this.regex.exec(parts[0]);
       if (results != null) {
