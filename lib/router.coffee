@@ -14,15 +14,15 @@
 #
 ###
 class Router
-	routes: {}
 	###
 	# Constructs a BrowRouter that will listen to browser navigations
 	# and trigger registered routes. Won't start listening until the
 	# start method has been invoked.
 	###
 	constructor: ->
+		@routes = {}
 
-	start: (runCurrent)->
+	start: (runCurrent=true)->
 		# register navigation listener
 		@browser = new Browser(true, (url) => @dispatch(url))
 		if runCurrent
@@ -35,6 +35,11 @@ class Router
 		# populate route registration
 		@routes[route] ||= new RouteListener(route)
 		@routes[route].callbacks.push(callback)
+
+	stopAll: () ->
+		delete @routes
+		@routes = {}
+		@browser.stop() if @browser?
 	
 	# stop listening to a route
 	stop: (route,callback) ->

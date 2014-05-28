@@ -1,7 +1,7 @@
 class RouteListener
-	callbacks: []
 	constructor: (@route) ->
 		@compile()
+		@callbacks = new Array()
 
 	matches: (url) ->
 		parts = url.split("?",2)

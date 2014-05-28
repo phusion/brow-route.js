@@ -1,0 +1,43 @@
+{
+  "name": "brow-route.js",
+  "version": "0.0.0",
+  "description": "Brow Route ========== A simple hash based router for modern web applications ------------------------------------------------------",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "gulp": "~3.6.2",
+    "gulp-clean": "~0.3.0",
+    "gulp-coffee": "~1.4.3",
+    "gulp-coffeelint": "~0.3.3",
+    "gulp-uglify": "~0.3.0",
+    "gulp-concat": "~2.2.0",
+    "gulp-util": "~2.2.14",
+    "karma": "~0.12.16",
+    "karma-chrome-launcher": "~0.1.4",
+    "karma-jasmine": "~0.2.0",
+    "run-sequence": "~0.3.6"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.7.1"
+  },
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/d-snp/brow-route.js.git"
+  },
+  "keywords": [
+    "browser",
+    "hash",
+    "route",
+    "routing"
+  ],
+  "author": "Tinco Andringa (Phusion.nl)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/d-snp/brow-route.js/issues"
+  }
+}
