@@ -19,8 +19,11 @@ if !@BrowRoute? then @BrowRoute = {}
 	# Constructs a BrowRouter that will listen to browser navigations
 	# and trigger registered routes. Won't start listening until the
 	# start method has been invoked.
+	#
+	# If you'd like to receive params as an object instead of a list
+	# arguments pass true into the constructor.
 	###
-	constructor: ->
+	constructor: (@paramsObject=false)->
 		@routes = {}
 
 	start: (runCurrent=true)->
@@ -34,7 +37,7 @@ if !@BrowRoute? then @BrowRoute = {}
 	###
 	on: (route, callback) ->
 		# populate route registration
-		@routes[route] ||= new RouteListener(route)
+		@routes[route] ||= new RouteListener(route, @paramsObject)
 		@routes[route].callbacks.push(callback)
 
 	stopAll: () ->

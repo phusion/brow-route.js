@@ -150,21 +150,34 @@
   }
 
   this.BrowRoute.RouteListener = RouteListener = (function() {
-    function RouteListener(route) {
+    function RouteListener(route, paramsObject) {
       this.route = route;
+      this.paramsObject = paramsObject != null ? paramsObject : false;
+      this.variableNames = [];
+      this.callbacks = [];
       this.compile();
-      this.callbacks = new Array();
     }
 
     RouteListener.prototype.matches = function(url) {
-      var parts, results;
+      var name, params, parts, results, _i, _len, _ref;
       parts = url.split("?", 2);
       results = this.regex.exec(parts[0]);
-      if (parts[1] != null) {
-        results.push(this.parseOptions(parts[1]));
-      }
       if (results != null) {
-        return results.slice(1);
+        if (this.paramsObject) {
+          params = {};
+          results.shift();
+          _ref = this.variableNames;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            name = _ref[_i];
+            params[name] = results.shift();
+          }
+          return results = [params, parts[1] || {}];
+        } else {
+          if (parts[1] != null) {
+            results.push(this.parseOptions(parts[1]));
+          }
+          return results.slice(1);
+        }
       } else {
         return false;
       }
@@ -216,11 +229,13 @@
         switch (c) {
           case ':':
             variable_name = this.readVariableName(this.route.substr(i + 1), i);
+            this.variableNames.push(variable_name);
             i += variable_name.length;
             result_array.push(this.variableRegex);
             break;
           case '*':
             variable_name = this.readVariableName(this.route.substr(i + 1), i);
+            this.variableNames.push(variable_name);
             i += variable_name.length;
             result_array.push(this.globbingVariableRegex);
             break;
@@ -319,8 +334,12 @@
     	 * Constructs a BrowRouter that will listen to browser navigations
     	 * and trigger registered routes. Won't start listening until the
     	 * start method has been invoked.
+    	 *
+    	 * If you'd like to receive params as an object instead of a list
+    	 * arguments pass true into the constructor.
      */
-    function Router() {
+    function Router(paramsObject) {
+      this.paramsObject = paramsObject != null ? paramsObject : false;
       this.routes = {};
     }
 
@@ -345,7 +364,7 @@
 
     Router.prototype.on = function(route, callback) {
       var _base;
-      (_base = this.routes)[route] || (_base[route] = new RouteListener(route));
+      (_base = this.routes)[route] || (_base[route] = new RouteListener(route, this.paramsObject));
       return this.routes[route].callbacks.push(callback);
     };
 

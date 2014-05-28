@@ -19,6 +19,17 @@ describe "Router", ->
 			r.stopAll()
 			expect(promise).toBe("12")
 
+	describe "#constructor", ->
+		it "allows you to specify you want to receive a params object", ->
+			r = new Router(true)
+			promise = ""
+			r.on "/users/:id/:something", (params) ->
+				promise += params.id + params.something
+			r.dispatch("/users/1/2")
+			r.dispatch("/users/3/4")
+			r.stopAll()
+			expect(promise).toBe("1234")
+
 	describe "#start", ->
 		r = null
 

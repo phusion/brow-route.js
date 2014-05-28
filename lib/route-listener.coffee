@@ -1,16 +1,25 @@
 if !@BrowRoute? then @BrowRoute = {}
 
 @BrowRoute.RouteListener = class RouteListener
-	constructor: (@route) ->
+	constructor: (@route, @paramsObject=false) ->
+		@variableNames = []
+		@callbacks = []
 		@compile()
-		@callbacks = new Array()
 
 	matches: (url) ->
 		parts = url.split("?",2)
 		results = @regex.exec(parts[0])
-		results.push(@parseOptions(parts[1])) if parts[1]?
+		
 		if results?
-			results.slice(1) 
+			if @paramsObject
+				params = {}
+				results.shift()
+				for name in @variableNames
+					params[name] = results.shift()	
+				results = [params, parts[1] || {}]
+			else
+				results.push(@parseOptions(parts[1])) if parts[1]?
+				results.slice(1) 
 		else
 			false
 
@@ -54,12 +63,14 @@ if !@BrowRoute? then @BrowRoute = {}
 				when ':'
 					#read variable name
 					variable_name = @readVariableName(@route.substr(i+1),i)
+					@variableNames.push(variable_name)
 					i += variable_name.length
 					#emit variable regex
 					result_array.push(@variableRegex)
 				when '*'
 					#read variable name
 					variable_name = @readVariableName(@route.substr(i+1),i)
+					@variableNames.push(variable_name)
 					i += variable_name.length
 					#emit globbing variable regex
 					result_array.push(@globbingVariableRegex)
