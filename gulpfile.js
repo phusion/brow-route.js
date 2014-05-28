@@ -19,7 +19,7 @@ gulp.task('default', ['watch']);
 
 gulp.task('build', function() {
 	gulp.src(sources.coffee)
-		.pipe(coffee({bare: true}).on('error', gutil.log))
+		.pipe(coffee({bare: false}).on('error', gutil.log))
 		.pipe(concat(libraryName))
 		.pipe(gulp.dest(destinations.js));
 });

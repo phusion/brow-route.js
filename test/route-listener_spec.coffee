@@ -1,4 +1,5 @@
 describe "RouteListener", ->
+	RouteListener = BrowRoute.RouteListener
 	describe "#variableNameRegex", ->
 		it "should match a variable name in a string", ->
 			rl = new RouteListener("")

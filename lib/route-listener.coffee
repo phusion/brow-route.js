@@ -1,4 +1,6 @@
-class RouteListener
+if !@BrowRoute? then @BrowRoute = {}
+
+@BrowRoute.RouteListener = class RouteListener
 	constructor: (@route) ->
 		@compile()
 		@callbacks = new Array()

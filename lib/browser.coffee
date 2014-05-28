@@ -1,3 +1,5 @@
+if !@BrowRoute? then @BrowRoute = {}
+
 # Transcribed from https://github.com/flatiron/director
 # Copyright Nodejitsu Inc.: https://github.com/flatiron/director/blob/master/LICENSE
 dloc = document.location
@@ -6,7 +8,7 @@ dlocHashEmpty = ->
 	# Non-IE browsers return '' when the address bar shows '#'
 	dloc.hash == "" or dloc.hash == "#"
 
-class Browser
+@BrowRoute.Browser = class Browser
 	onHashChanged: (onChangeEvent) ->
 		return if @stopped
 		if dloc.hash[0] = '#'

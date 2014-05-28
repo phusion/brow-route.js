@@ -1,4 +1,5 @@
 describe "Router", ->
+	Router = BrowRoute.Router
 	###
 	# Set asynchronous timeout interval.
 	###
