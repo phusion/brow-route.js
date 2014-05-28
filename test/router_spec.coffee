@@ -30,6 +30,16 @@ describe "Router", ->
 			r.stopAll()
 			expect(promise).toBe("1234")
 
+		it "with a params object still gives you decoded options", ->
+			r = new Router(true)
+			promise = ""
+			r.on "/users/:id", (params, options) ->
+				promise += params.id + options.something
+			r.dispatch("/users/1?something=2")
+			r.dispatch("/users/3?something=4")
+			r.stopAll()
+			expect(promise).toBe("1234")
+
 	describe "#start", ->
 		r = null
 

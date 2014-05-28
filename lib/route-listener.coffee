@@ -12,16 +12,16 @@ if !@BrowRoute? then @BrowRoute = {}
 
 		parts = url.split("?",2)
 		results = @regex.exec(parts[0])
-		
+		options = @parseOptions(parts[1])
 		if results?
 			if @paramsObject
 				params = {}
 				results.shift()
 				for name in @variableNames
 					params[name] = results.shift()	
-				results = [params, parts[1] || {}]
+				results = [params, options]
 			else
-				results.push(@parseOptions(parts[1])) if parts[1]?
+				results.push(options)
 				results.slice(1) 
 		else
 			false

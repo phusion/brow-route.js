@@ -159,12 +159,13 @@
     }
 
     RouteListener.prototype.matches = function(url) {
-      var name, params, parts, results, _i, _len, _ref;
+      var name, options, params, parts, results, _i, _len, _ref;
       if (url[0] === '#') {
         url = url.substr(1);
       }
       parts = url.split("?", 2);
       results = this.regex.exec(parts[0]);
+      options = this.parseOptions(parts[1]);
       if (results != null) {
         if (this.paramsObject) {
           params = {};
@@ -174,11 +175,9 @@
             name = _ref[_i];
             params[name] = results.shift();
           }
-          return results = [params, parts[1] || {}];
+          return results = [params, options];
         } else {
-          if (parts[1] != null) {
-            results.push(this.parseOptions(parts[1]));
-          }
+          results.push(options);
           return results.slice(1);
         }
       } else {
