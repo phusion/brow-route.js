@@ -10,6 +10,7 @@ var router = new BrowRoute.Router()
 router.on("books/:book_id/chapters/:chapter_id(/:action)", function(book_id, chapter_id, action, options) {
     Application.Run(BookChapterController, book_id, chapter_id, action, options);
 })
+router.start()
 ```
 
 
