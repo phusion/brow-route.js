@@ -4,7 +4,7 @@ var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 
-var libraryName = "brow-route.js";
+var libraryName = "brow-route.coffee";
 
 var sources = {
 	coffee: "lib/**/*.coffee",
@@ -19,8 +19,8 @@ gulp.task('default', ['watch']);
 
 gulp.task('build', function() {
 	gulp.src(sources.coffee)
-		.pipe(coffee({bare: false}).on('error', gutil.log))
 		.pipe(concat(libraryName))
+		.pipe(coffee({bare: false}).on('error', gutil.log))
 		.pipe(gulp.dest(destinations.js));
 });
 

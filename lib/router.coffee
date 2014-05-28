@@ -1,5 +1,4 @@
 if !@BrowRoute? then @BrowRoute = {}
-BrowRoute = @BrowRoute
 ###
 # Example usage:
 #
@@ -15,7 +14,7 @@ BrowRoute = @BrowRoute
 #    });
 #
 ###
-BrowRoute.Router = class Router
+@BrowRoute.Router = class Router
 	###
 	# Constructs a BrowRouter that will listen to browser navigations
 	# and trigger registered routes. Won't start listening until the
@@ -26,7 +25,7 @@ BrowRoute.Router = class Router
 
 	start: (runCurrent=true)->
 		# register navigation listener
-		@browser = new BrowRoute.Browser(true, (url) => @dispatch(url))
+		@browser = new Browser(true, (url) => @dispatch(url))
 		if runCurrent
 			@dispatch(document.location.hash)
 
@@ -35,7 +34,7 @@ BrowRoute.Router = class Router
 	###
 	on: (route, callback) ->
 		# populate route registration
-		@routes[route] ||= new BrowRoute.RouteListener(route)
+		@routes[route] ||= new RouteListener(route)
 		@routes[route].callbacks.push(callback)
 
 	stopAll: () ->
