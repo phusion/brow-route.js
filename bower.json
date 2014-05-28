@@ -1,5 +1,5 @@
 {
-	"name": "BrowRoute",
+	"name": "brow-route",
 	"version": "0.0.1",
 	"main" : "dist/brow-route.js",
 	"ignore" : [
