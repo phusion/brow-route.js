@@ -1,7 +1,7 @@
 {
   "name": "brow-route.js",
-  "version": "0.0.5",
-  "description": "Brow Route ========== A simple hash based router for modern web applications ------------------------------------------------------",
+  "version": "0.0.6",
+  "description": "A simple hash based router for modern web applications",
   "main": "gulpfile.js",
   "directories": {
     "test": "test"
