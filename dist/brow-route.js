@@ -40,16 +40,22 @@
     };
 
     function Browser(history, handler) {
+      var callback;
       this.hash = dloc.hash;
       this.history = history;
       this.handler = handler;
       this.stopped = false;
       if (('onhashchange' in window) && (!('documentMode' in document) || document.documentMode > 7)) {
-        window.onhashchange = (function(_this) {
+        callback = (function(_this) {
           return function(e) {
             return _this.onHashChanged(e);
           };
         })(this);
+        if (this.history) {
+          window.onpopstate = callback;
+        } else {
+          window.onhashchange = callback;
+        }
         this.mode = "modern";
       } else {
         this.installIEHack();
@@ -79,7 +85,7 @@
         this.writeFrame(s);
       }
       if (this.history) {
-        window.history.pushState({}, document.title, s);
+        window.history.pushState({}, document.title, "#" + s);
         return this.fire();
       } else {
         if (s[0] === "/") {

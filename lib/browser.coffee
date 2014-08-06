@@ -4,7 +4,7 @@ if !@BrowRoute? then @BrowRoute = {}
 # Copyright Nodejitsu Inc.: https://github.com/flatiron/director/blob/master/LICENSE
 dloc = document.location
 
-dlocHashEmpty = ->  
+dlocHashEmpty = ->
 	# Non-IE browsers return '' when the address bar shows '#'
 	dloc.hash == "" or dloc.hash == "#"
 
@@ -15,6 +15,7 @@ dlocHashEmpty = ->
 			hash = dloc.hash.substr(1)
 		else
 			hash = dloc.hash
+
 		@handler(hash, onChangeEvent)
 
 	constructor: (history, handler) ->
@@ -25,8 +26,12 @@ dlocHashEmpty = ->
 
 		#note IE8 is being counted as 'modern' because it has the hashchange event
 		if ('onhashchange' of window) and (!('documentMode' of document) or document.documentMode > 7)
+			callback = (e) => @onHashChanged(e)
+			if @history
+				window.onpopstate = callback
+			else
+				window.onhashchange = callback
 			# At least for now HTML5 history is available for 'modern' browsers only
-			window.onhashchange = (e) => @onHashChanged(e)
 			@mode = "modern"
 		else
 			@installIEHack()
@@ -50,7 +55,7 @@ dlocHashEmpty = ->
 		@writeFrame(s) if @mode == "legacy"
 
 		if @history
-			window.history.pushState({}, document.title, s)
+			window.history.pushState({}, document.title, "##{s}")
 			# Fire an onpopstate event manually since pushing does not obviously
 			# trigger the pop event.
 			@fire()

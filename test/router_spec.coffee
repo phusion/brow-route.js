@@ -51,7 +51,7 @@ describe "Router", ->
 		afterEach ->
 			r.stopAll()
 			window.location.hash = ''
-			
+
 		it "starts listening to defined routes", (done)->
 			r.on "/users/:id", (id) ->
 				expect(id).toBe('1')
@@ -63,4 +63,21 @@ describe "Router", ->
 				expect(id).toBe('2')
 				done()
 			window.location.hash = '/users/2'
-			
+
+	describe "#browser", ->
+		r = null
+
+		beforeEach ->
+			window.location.hash = ''
+			r = new Router()
+			r.start()
+
+		afterEach ->
+			r.stopAll()
+			window.location.hash = ''
+
+		it "should have a working setHash function", (done)->
+			r.on "/users/:id", (id) ->
+				expect(id).toBe('1')
+				done()
+			r.browser.setHash '/users/1'
