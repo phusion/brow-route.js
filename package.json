@@ -1,6 +1,6 @@
 {
-  "name": "brow-route.js",
-  "version": "0.0.6",
+  "name": "brow-route",
+  "version": "0.0.7",
   "description": "A simple hash based router for modern web applications",
   "main": "gulpfile.js",
   "directories": {
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/d-snp/brow-route.js.git"
+    "url": "git://github.com/phusion/brow-route.js.git"
   },
   "keywords": [
     "browser",
@@ -38,6 +38,6 @@
   "author": "Tinco Andringa (Phusion.nl)",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/d-snp/brow-route.js/issues"
+    "url": "https://github.com/phusion/brow-route.js/issues"
   }
 }
