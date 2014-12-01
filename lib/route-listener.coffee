@@ -97,6 +97,7 @@ if !@BrowRoute? then @BrowRoute = {}
 					# emit character
 					result_array.push(c)
 			i+=1 # next character
+		
 		result = "^" + result_array.join("") + "$"
 		@regex = new RegExp(result)
 

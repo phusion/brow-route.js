@@ -15,20 +15,17 @@ describe "RouteListener", ->
 		it "should return a regex formed from the route", ->
 			rl.route = "/users"
 			rl.compile()
-			expect(rl.regex.source).toBe("^/users$")
+			expect(rl.regex.test('/users')).toBe(true)
 
 		it "should make a regex that matches a variable", ->
 			rl.route = "/users/:id"
 			rl.compile()
-			expect(rl.regex.source).toBe("^/users/" + rl.variableRegex + "$")
+			expect(rl.regex.test("/users/variable")).toBe(true)
 
 		it "should make a regex that matches two variables", ->
 			rl.route = "/users/:id/comments/:comment_id"
 			rl.compile()
-			expect(rl.regex.source).toBe("^" +
-				"/users/" + rl.variableRegex +
-				"/comments/" + rl.variableRegex + "$"
-				)
+			expect(rl.regex.test("/users/var1/comments/var2")).toBe(true)
 		
 	describe "#matches", ->
 		it "should return wether a given route matches a given url", ->
