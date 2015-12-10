@@ -25,6 +25,7 @@ if !@BrowRoute? then @BrowRoute = {}
 	###
 	constructor: (@paramsObject=false)->
 		@routes = {}
+		@path = ""
 
 	start: (runCurrent=true)->
 		# register navigation listener
@@ -62,5 +63,7 @@ if !@BrowRoute? then @BrowRoute = {}
 	# Trigger on an url
 	###
 	dispatch: (url) ->
+		@path = url
+
 		for r,v of @routes
 			v.trigger(url)

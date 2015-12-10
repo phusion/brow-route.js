@@ -349,6 +349,7 @@
     function Router(paramsObject) {
       this.paramsObject = paramsObject != null ? paramsObject : false;
       this.routes = {};
+      this.path = "";
     }
 
     Router.prototype.start = function(runCurrent) {
@@ -410,6 +411,7 @@
 
     Router.prototype.dispatch = function(url) {
       var r, v, _ref, _results;
+      this.path = url;
       _ref = this.routes;
       _results = [];
       for (r in _ref) {

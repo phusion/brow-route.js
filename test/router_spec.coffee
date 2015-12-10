@@ -19,6 +19,15 @@ describe "Router", ->
 			r.stopAll()
 			expect(promise).toBe("12")
 
+		it "sets the #path property to the given hash", ->
+			r = new Router()
+			r.on "/users/:id", (id) -> id
+			r.dispatch("/users/1")
+			expect(r.path).toBe("/users/1")
+			r.dispatch("/users/2")
+			expect(r.path).toBe("/users/2")
+			r.stopAll()
+
 	describe "#constructor", ->
 		it "allows you to specify you want to receive a params object", ->
 			r = new Router(true)
