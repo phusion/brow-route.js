@@ -1,6 +1,6 @@
 {
   "name": "brow-route",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "A simple hash based router for modern web applications",
   "main": "gulpfile.js",
   "directories": {

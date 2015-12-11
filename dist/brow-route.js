@@ -96,6 +96,10 @@
       }
     };
 
+    Browser.prototype.getHash = function() {
+      return document.location.hash;
+    };
+
     Browser.prototype.installIEHack = function() {
       var frame;
       throw "IE support is untested, remove this line and carefully test. Please send results to author.";
@@ -350,6 +354,8 @@
       this.paramsObject = paramsObject != null ? paramsObject : false;
       this.routes = {};
       this.path = "";
+      this.started = false;
+      this.startRoute = null;
     }
 
     Router.prototype.start = function(runCurrent) {
@@ -361,8 +367,11 @@
           return _this.dispatch(url);
         };
       })(this));
-      if (runCurrent) {
-        return this.dispatch(document.location.hash);
+      this.started = true;
+      if (this.startRoute != null) {
+        return this.goTo(this.startRoute);
+      } else if (runCurrent) {
+        return this.dispatch(this.browser.getHash());
       }
     };
 
@@ -401,6 +410,17 @@
       }
       if (listener.callbacks.length === 0) {
         return delete this.routes[route];
+      }
+    };
+
+    Router.prototype.goTo = function(path) {
+      if (path[0] === '#') {
+        path = path.slice(1);
+      }
+      if (!this.started) {
+        return this.startRoute = path;
+      } else {
+        return this.browser.setHash(path);
       }
     };
 

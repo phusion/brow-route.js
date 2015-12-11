@@ -65,6 +65,8 @@ dlocHashEmpty = ->
 			else
 				dloc.hash = "/" + s
 
+	getHash: -> document.location.hash
+
 	##
 	# Functions below implement IE support, based on a concept by Erik Arvidson
 	##

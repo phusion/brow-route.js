@@ -26,12 +26,18 @@ if !@BrowRoute? then @BrowRoute = {}
 	constructor: (@paramsObject=false)->
 		@routes = {}
 		@path = ""
+		@started = false
+		@startRoute = null
 
 	start: (runCurrent=true)->
 		# register navigation listener
 		@browser = new Browser(true, (url) => @dispatch(url))
-		if runCurrent
-			@dispatch(document.location.hash)
+		@started = true
+
+		if @startRoute?
+			@goTo(@startRoute)
+		else if runCurrent
+			@dispatch(@browser.getHash())
 
 	###
 	# Register a route
@@ -58,7 +64,16 @@ if !@BrowRoute? then @BrowRoute = {}
 
 		if listener.callbacks.length == 0
 			delete @routes[route]
-		
+
+	goTo: (path) ->
+		if path[0] == '#'
+			path = path.slice(1)
+
+		if !@started
+			@startRoute = path
+		else
+			@browser.setHash path
+
 	###
 	# Trigger on an url
 	###

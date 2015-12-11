@@ -73,6 +73,27 @@ describe "Router", ->
 				done()
 			window.location.hash = '/users/2'
 
+	describe "#goTo", ->
+		r = null
+
+		beforeEach ->
+			window.location.hash = ''
+			r = new Router()
+
+		afterEach ->
+			r.stopAll()
+			window.location.hash = ''
+
+		it "navigates to the given route", (done) ->
+			r.on "/users/:id", (id) -> done()
+			r.start()
+			r.goTo "/users/1"
+
+		it "navigates to the given route when the router is started", (done) ->
+			r.on "/users/:id", (id) -> done()
+			r.goTo "/users/1"
+			r.start()
+
 	describe "#browser", ->
 		r = null
 
